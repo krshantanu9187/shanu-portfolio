@@ -1,0 +1,26 @@
+# Netlify build settings. With this file in the repo root, Netlify needs no
+# manual configuration in its UI — it reads everything from here.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  # netlify/functions/chat.mjs serves /api/chat, the same path the frontend
+  # calls. Without an ANTHROPIC_API_KEY it returns 501 and the chat falls back
+  # to the local knowledge engine, which is a perfectly good default.
+  functions = "netlify/functions"
+
+[build.environment]
+  # Vite 7 needs a modern Node; pin it so local and CI builds match.
+  NODE_VERSION = "22"
+
+# Vite fingerprints every file in /assets, so those can be cached forever.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# The HTML must never be cached, or a deploy ships new assets to an old page.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
