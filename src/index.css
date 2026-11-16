@@ -3,16 +3,21 @@
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
 
-/* Admin: Shopify's own surface colours — Polaris greys with the green used the
-   way Shopify uses it, on actions and figures only. One theme, always light. */
-:root {
-  color-scheme: light;
-  --base: #F6F6F7; --panel: #FFFFFF; --ink: #202223; --muted: #6D7175;
-  --line: #E1E3E5; --rule: #C9CCCF; --ash: #8C9196;
-  --brand: #008060; --brand-bright: #006E52; --on-brand: #FFFFFF;
+/* Black, sky blue and white. Near-black surfaces that step up as they come
+   forward, white for anything you read, blue kept for accents and actions only
+   — on this much black, blue everywhere stops meaning anything. Always dark.
 
-  /* the code card */
-  --code-bg: #14171A; --code-line: #262B2F; --code-ink: #D5DADE;
+   Two blues, because one cannot do both jobs: --brand is bright enough to read
+   ON black, --brand-deep is dark enough for white text to sit on TOP of it. */
+:root {
+  color-scheme: dark;
+  --base: #0B0B0C; --panel: #141417; --ink: #FAFAFA; --muted: #9B9BA3;
+  --line: #232327; --rule: #3B3B43; --ash: #71717A;
+  --brand: #1EA7FD; --brand-bright: #5CC3FF; --brand-deep: #0A5FA8;
+  --on-brand: #0B0B0C;
+
+  /* the code card — a touch lighter than the page, so it reads as a pane */
+  --code-bg: #121214; --code-line: #27272C; --code-ink: #D8D8DE;
 }
 
 @theme inline {
@@ -25,6 +30,7 @@
   --color-ash: var(--ash);
   --color-brand: var(--brand);
   --color-brand-bright: var(--brand-bright);
+  --color-brand-deep: var(--brand-deep);
   --color-on-brand: var(--on-brand);
 
   --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
@@ -37,13 +43,19 @@
   --animate-blink: blink 1s steps(1) infinite;
   --animate-ping-soft: ping-soft 2s infinite;
   --animate-pulse-dot: pulse-dot 2.6s ease-in-out infinite;
+  --animate-grid-drift: grid-drift 40s linear infinite;
+  --animate-ember: ember 5s ease-in-out infinite;
 
   @keyframes drift1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-90px,60px) scale(1.1)} 66%{transform:translate(50px,100px) scale(.95)} }
   @keyframes drift2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(130px,-70px) scale(1.12)} }
   @keyframes marquee { to { transform: translateX(-50%) } }
   @keyframes blink { 50% { opacity: 0 } }
-  @keyframes ping-soft { 70% { box-shadow: 0 0 0 9px rgb(0 128 96 / 0) } 100% { box-shadow: 0 0 0 0 rgb(0 128 96 / 0) } }
+  @keyframes ping-soft { 70% { box-shadow: 0 0 0 9px rgb(30 167 253 / 0) } 100% { box-shadow: 0 0 0 0 rgb(30 167 253 / 0) } }
   @keyframes pulse-dot { 50% { transform: scale(1.7) } }
+  /* the hero grid creeping sideways — one cell over the whole cycle */
+  @keyframes grid-drift { to { background-position: 64px 64px } }
+  /* a slow breath on the blue glows, so the page is never quite still */
+  @keyframes ember { 0%,100% { opacity: .55 } 50% { opacity: 1 } }
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 76px; }
@@ -54,7 +66,7 @@ body {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
-::selection { background: var(--brand); color: #fff; }
+::selection { background: var(--brand); color: var(--on-brand); }
 
 /* Scroll reveal (toggled by the useReveal hook) */
 .reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s var(--ease-out-soft), transform .8s var(--ease-out-soft); }
@@ -87,7 +99,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand); outline
 /* Native dialog, used for the store details on small screens. <dialog> brings
    its own focus trap, Esc-to-close and backdrop, so none of that is rebuilt. */
 dialog.sheet { border: none; padding: 0; background: transparent; max-width: 100%; max-height: 100%; }
-dialog.sheet::backdrop { background: rgb(32 34 35 / 0.5); }
+dialog.sheet::backdrop { background: rgb(0 0 0 / 0.74); }
 dialog.sheet[open] { animation: sheet-in .3s var(--ease-out-soft); }
 dialog.sheet[open]::backdrop { animation: fade-in .3s ease both; }
 @keyframes sheet-in { from { opacity: 0; transform: translateY(14px) scale(.97) } to { opacity: 1; transform: none } }
@@ -115,54 +127,108 @@ dialog.sheet[open]::backdrop { animation: fade-in .3s ease both; }
 .crosshair > .ch-b::before { bottom: -6px; left: -6px; }
 .crosshair > .ch-b::after { bottom: -6px; right: -6px; }
 
-/* Faint grid behind the hero */
+/* Faint grid behind the hero, creeping sideways */
 .hero-grid {
   background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse at 70% 30%, #000 10%, transparent 72%);
+  animation: grid-drift 40s linear infinite;
+}
+
+/* Hover state for a card on black: a drop shadow is invisible here, so the
+   card lifts with a blue rim and a glow instead. */
+.glow-card {
+  transition: border-color .4s var(--ease-out-soft), box-shadow .4s var(--ease-out-soft), transform .4s var(--ease-out-soft);
+}
+.glow-card:hover {
+  border-color: rgb(30 167 253 / 0.45);
+  box-shadow: 0 0 0 1px rgb(30 167 253 / 0.18), 0 26px 60px -28px rgb(30 167 253 / 0.45);
 }
 
 /* Frosted glass, for the assistant panel. Falls back to a solid tint where
    backdrop-filter is unsupported. */
 .glass {
-  background: rgb(255 255 255 / 0.55);
-  border: 1px solid rgb(255 255 255 / 0.75);
+  background: rgb(255 255 255 / 0.05);
+  border: 1px solid rgb(255 255 255 / 0.10);
   box-shadow:
-    0 1px 2px rgb(16 24 40 / 0.04),
-    0 16px 40px -12px rgb(16 24 40 / 0.14),
-    inset 0 1px 0 rgb(255 255 255 / 0.6);
+    0 1px 0 rgb(255 255 255 / 0.05) inset,
+    0 28px 70px -30px rgb(0 0 0 / 0.9);
 }
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .glass {
-    background: rgb(255 255 255 / 0.42);
-    -webkit-backdrop-filter: blur(22px) saturate(150%);
-    backdrop-filter: blur(22px) saturate(150%);
+    background: rgb(255 255 255 / 0.035);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    backdrop-filter: blur(22px) saturate(140%);
   }
 }
 .glass-inset {
-  background: rgb(255 255 255 / 0.5);
-  border: 1px solid rgb(255 255 255 / 0.7);
+  background: rgb(255 255 255 / 0.055);
+  border: 1px solid rgb(255 255 255 / 0.09);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
-/* The soft colour the glass has something to blur */
+/* The blue the glass has something to blur, breathing slowly behind it */
 .aurora {
   background:
-    radial-gradient(ellipse 50% 60% at 12% 25%, rgb(0 128 96 / 0.20) 0%, transparent 70%),
-    radial-gradient(ellipse 45% 55% at 88% 18%, rgb(93 207 169 / 0.30) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 60% 95%, rgb(0 110 82 / 0.16) 0%, transparent 70%);
+    radial-gradient(ellipse 50% 60% at 12% 25%, rgb(30 167 253 / 0.34) 0%, transparent 70%),
+    radial-gradient(ellipse 45% 55% at 88% 18%, rgb(92 195 255 / 0.26) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 60% 95%, rgb(10 95 168 / 0.40) 0%, transparent 70%);
+  animation: ember 7s ease-in-out infinite;
 }
 
 /* Code card in the hero — an editor pane, since that is where the work happens */
 .code-card { background: var(--code-bg); color: var(--code-ink); }
-.code-card .ln { color: #4A5055; user-select: none; }
-.t-del { color: #4FD1A5; }            /* {% %} and {{ }} */
-.t-kw  { color: #7FE0C0; }            /* liquid keywords */
-.t-obj { color: #9EC5FF; }            /* objects and properties */
-.t-str { color: #F0C274; }            /* strings */
-.t-com { color: #6B7478; font-style: italic; }
-.t-txt { color: #D5DADE; }            /* markup */
+.code-card .ln { color: #45454D; user-select: none; }
+/* Only blue, white and grey here too — the separation comes from weight and
+   brightness rather than from hue. */
+.t-del { color: #1EA7FD; }            /* {% %} and {{ }} */
+.t-kw  { color: #7FD0FF; }            /* liquid keywords */
+.t-obj { color: #FFFFFF; }            /* objects and properties */
+.t-str { color: #B4B4BC; }            /* strings */
+.t-com { color: #5E5E66; font-style: italic; }
+.t-txt { color: #D8D8DE; }            /* markup */
+
+/* The pointer: a pair of angle brackets around a dot, which open up and light
+   up over anything you can click. Registered so the radius can be animated —
+   a plain custom property would jump between the two sizes. */
+@property --tr {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 200px;
+}
+
+.ptr { font-weight: 500; letter-spacing: 0; color: var(--muted); transition: color .3s var(--ease-out-soft); }
+.ptr > b { display: block; font-weight: inherit; transition: transform .35s var(--ease-out-soft); }
+.ptr[data-big="1"] { color: var(--brand); text-shadow: 0 0 14px rgb(30 167 253 / 0.75); }
+.ptr[data-big="1"] > b:first-child { transform: translateX(-8px) scale(1.3); }
+.ptr[data-big="1"] > b:last-child { transform: translateX(8px) scale(1.3); }
+
+/* Torch: a pool of blue light under the pointer. It widens over a block of
+   text, so reading something feels like shining a light on it. No blend mode
+   on purpose — on a near-black page a low-alpha gradient already reads as
+   light, and a full-screen blend layer costs a composite every frame. */
+.torch {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .6s var(--ease-out-soft), --tr .45s var(--ease-out-soft);
+  background: radial-gradient(
+    circle var(--tr) at var(--tx, -200px) var(--ty, -200px),
+    rgb(30 167 253 / 0.11) 0%,
+    rgb(30 167 253 / 0.045) 38%,
+    transparent 68%
+  );
+}
+.torch[data-on="1"] { opacity: 1; }
+
+/* The block of text the torch is resting on. The transition rides in with the
+   class, so the glow fades up; taking the class away drops it at once, which
+   nobody sees because the pointer has already moved on. */
+.torch-lit { text-shadow: 0 0 26px rgb(30 167 253 / 0.42); transition: text-shadow .35s var(--ease-out-soft); }
+h1.torch-lit, h2.torch-lit, h3.torch-lit { text-shadow: 0 0 30px rgb(30 167 253 / 0.5); }
 
 /* Caret that trails streaming text */
 .caret-blink { display: inline-block; width: .5ch; height: 1.05em; vertical-align: -.16em; background: var(--brand); margin-left: .08em; animation: blink 1s steps(1) infinite; }
@@ -175,6 +241,8 @@ dialog.sheet[open]::backdrop { animation: fade-in .3s ease both; }
   .stagger > * { opacity: 1; transform: none; }
   .draw-line { transform: none; }
   .slider-track { scroll-behavior: auto; }
+  .torch { display: none; }
+  .torch-lit { text-shadow: none; }
 }
 
 /* used by the year-rail detail card when it swaps */
