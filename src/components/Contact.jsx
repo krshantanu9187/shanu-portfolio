@@ -7,9 +7,9 @@ import SplitHeading from './SplitHeading'
 export default function Contact() {
   return (
     <Reveal id="contact" className="my-20">
-      <Frame className="relative isolate bg-brand px-6 py-14 text-white sm:px-12 sm:py-16">
+      <Frame className="relative isolate bg-brand-deep px-6 py-14 text-white sm:px-12 sm:py-16">
         <span aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
-          <span className="absolute -right-24 -top-28 block size-[460px] animate-drift-1 rounded-full bg-[radial-gradient(circle,#5DCFA9_0%,transparent_65%)] opacity-40" />
+          <span className="absolute -right-24 -top-28 block size-[460px] animate-drift-1 rounded-full bg-[radial-gradient(circle,#5CC3FF_0%,transparent_65%)] opacity-40" />
         </span>
         <p className="m-0 mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-white/70">Available now</p>
         <SplitHeading

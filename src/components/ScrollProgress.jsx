@@ -19,5 +19,11 @@ export default function ScrollProgress() {
     update()
     return () => removeEventListener('scroll', onScroll)
   }, [])
-  return <div ref={ref} aria-hidden="true" className="fixed left-0 top-0 z-50 h-0.5 w-full origin-left scale-x-0 bg-brand" />
+  return (
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className="fixed left-0 top-0 z-50 h-0.5 w-full origin-left scale-x-0 bg-brand shadow-[0_0_14px_rgb(30_167_253/0.85)]"
+    />
+  )
 }

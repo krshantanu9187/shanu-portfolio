@@ -15,15 +15,18 @@ const schemes = {
     fill: 'bg-brand',
     hover: 'group-hover:text-on-brand',
   },
+  // On the blue contact block this one inverts to near-black rather than to a
+  // lighter blue: white text needs a dark fill under it, and black also reads
+  // as a deliberate flip against the blue instead of fading into it.
   'dark-primary': {
-    look: 'border-white bg-white text-brand',
-    fill: 'bg-brand-bright',
+    look: 'border-white bg-white text-brand-deep',
+    fill: 'bg-base',
     hover: 'group-hover:text-white',
   },
   'dark-outline': {
     look: 'border-white/40 text-white hover:border-white',
     fill: 'bg-white',
-    hover: 'group-hover:text-brand',
+    hover: 'group-hover:text-brand-deep',
   },
 }
 

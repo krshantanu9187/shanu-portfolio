@@ -91,11 +91,11 @@ const codeLines = [
 /** An editor pane — the hero's second column, in place of a photo. */
 function CodeCard() {
   return (
-    <div className="code-card overflow-hidden rounded-xl border border-[var(--code-line)] shadow-[0_18px_40px_-16px_rgb(32_34_35/0.45)]">
+    <div className="code-card overflow-hidden rounded-xl border border-[var(--code-line)] shadow-[0_18px_50px_-16px_rgb(0_0_0/0.9)]">
       <div className="flex items-center gap-2 border-b border-[var(--code-line)] px-4 py-2.5">
         <span className="size-1.5 shrink-0 rounded-full bg-brand" />
-        <span className="truncate font-mono text-[11.5px] text-[#9BA3A8]">sections/stock-badge.liquid</span>
-        <span className="ml-auto shrink-0 rounded border border-[var(--code-line)] px-1.5 py-px font-mono text-[10px] uppercase tracking-[0.1em] text-[#6B7478]">
+        <span className="truncate font-mono text-[11.5px] text-[#8A8A93]">sections/stock-badge.liquid</span>
+        <span className="ml-auto shrink-0 rounded border border-[var(--code-line)] px-1.5 py-px font-mono text-[10px] uppercase tracking-[0.1em] text-[#5E5E66]">
           Liquid
         </span>
       </div>
@@ -114,9 +114,9 @@ function CodeCard() {
         </code>
       </pre>
 
-      <div className="flex items-center gap-2 border-t border-[var(--code-line)] px-4 py-2.5 font-mono text-[11px] text-[#6B7478]">
+      <div className="flex items-center gap-2 border-t border-[var(--code-line)] px-4 py-2.5 font-mono text-[11px] text-[#5E5E66]">
         <span className="size-1.5 shrink-0 animate-pulse-dot rounded-full bg-brand" />
-        theme check <span className="text-[#7FE0C0]">0 errors</span>
+        theme check <span className="text-brand">0 errors</span>
         <span className="ml-auto">735 SKUs</span>
       </div>
     </div>
@@ -137,11 +137,14 @@ export default function Hero() {
     return () => removeEventListener('mousemove', move)
   }, [])
 
+  // overflow-x-clip keeps the glow wrapper below from widening the document —
+  // it hangs 10vw past each edge, which used to push a sliver of horizontal
+  // scroll onto phones and shift fixed elements off-centre.
   return (
-    <div id="top" className="relative isolate">
+    <div id="top" className="relative isolate overflow-x-clip">
       <div ref={blobs} aria-hidden="true" className="pointer-events-none absolute -inset-x-[10vw] -top-20 bottom-0 -z-10 overflow-hidden transition-transform duration-700 ease-out">
-        <div className="absolute right-[6%] -top-16 size-[320px] animate-drift-1 rounded-full bg-[#5DCFA9] opacity-[0.12] blur-[100px] sm:size-[520px] sm:opacity-[0.2]" />
-        <div className="absolute -bottom-24 left-[10%] size-[260px] animate-drift-2 rounded-full bg-[#008060] opacity-[0.08] blur-[100px] sm:size-[400px] sm:opacity-[0.12]" />
+        <div className="absolute right-[6%] -top-16 size-[320px] animate-drift-1 rounded-full bg-[#1EA7FD] [animation:drift1_22s_ease-in-out_infinite,ember_6s_ease-in-out_infinite] opacity-[0.12] blur-[100px] sm:size-[520px] sm:opacity-[0.2]" />
+        <div className="absolute -bottom-24 left-[10%] size-[260px] animate-drift-2 rounded-full bg-[#0A5FA8] [animation:drift2_26s_ease-in-out_infinite,ember_8s_ease-in-out_infinite] opacity-[0.08] blur-[100px] sm:size-[400px] sm:opacity-[0.12]" />
       </div>
       <div aria-hidden="true" className="hero-grid pointer-events-none absolute inset-0 -z-10 opacity-40" />
 

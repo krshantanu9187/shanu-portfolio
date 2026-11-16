@@ -41,7 +41,7 @@ function Postcard({ s, i }) {
     <Frame
       as="article"
       data-cursor
-      className="group relative flex h-full min-h-[260px] flex-col border border-line p-6 transition-[border-color,box-shadow] duration-400 ease-out-soft hover:border-ash hover:shadow-[0_20px_40px_-26px_rgb(32_34_35/0.4)]"
+      className="group relative flex h-full min-h-[260px] flex-col border border-line p-6 glow-card"
     >
       <span
         aria-hidden="true"
@@ -140,7 +140,7 @@ export default function Stores() {
 
       <dialog ref={dialog} onClick={onBackdrop} aria-label="Project details" className="sheet m-auto w-[min(92vw,420px)]">
         {s && (
-          <div className="relative border border-line bg-base p-6 text-left shadow-[0_24px_60px_-20px_rgb(32_34_35/0.45)]">
+          <div className="relative border border-line bg-base p-6 text-left shadow-[0_28px_70px_-20px_rgb(0_0_0/0.9)]">
             <span aria-hidden="true" className="absolute inset-y-0 left-0 w-[3px] bg-brand" />
 
             <div className="flex items-start justify-between gap-4">

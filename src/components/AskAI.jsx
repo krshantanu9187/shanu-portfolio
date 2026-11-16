@@ -165,7 +165,7 @@ export default function AskAI() {
 
         <div className="glass overflow-hidden rounded-2xl">
           {/* status strip */}
-          <div className="flex items-center justify-between gap-3 border-b border-white/50 px-5 py-3">
+          <div className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3">
             <p className="m-0 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
               <span
                 className={`inline-block size-1.5 rounded-full ${
@@ -182,7 +182,7 @@ export default function AskAI() {
                 aria-pressed={voiceOn}
                 aria-label={voiceOn ? 'Turn Neo\u2019s voice off' : 'Turn Neo\u2019s voice on'}
                 className={`flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] transition-colors ${
-                  voiceOn ? 'border-brand/40 bg-brand/10 text-brand' : 'border-white/60 bg-white/40 text-muted hover:text-ink'
+                  voiceOn ? 'border-brand/40 bg-brand/10 text-brand' : 'border-white/15 bg-white/[0.05] text-muted hover:text-ink'
                 }`}
               >
                 <SpeakerIcon on={voiceOn} />
@@ -232,14 +232,14 @@ export default function AskAI() {
           </div>
 
           {/* suggestions */}
-          <div className="flex flex-wrap gap-2 border-t border-white/50 px-5 pt-4">
+          <div className="flex flex-wrap gap-2 border-t border-white/10 px-5 pt-4">
             {suggestions.map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => send(s)}
                 disabled={busy}
-                className="rounded-full border border-white/70 bg-white/40 px-3 py-1.5 text-[13px] text-muted transition-colors hover:border-brand/40 hover:text-ink disabled:opacity-40"
+                className="rounded-full border border-white/12 bg-white/[0.05] px-3 py-1.5 text-[13px] text-muted transition-colors hover:border-brand/40 hover:text-ink disabled:opacity-40"
               >
                 {s}
               </button>
@@ -259,7 +259,7 @@ export default function AskAI() {
               onChange={(e) => setInput(e.target.value)}
               placeholder={mic.listening ? 'Listening…' : phase === 'thinking' ? 'Thinking…' : 'Ask Neo about Shaan'}
               aria-label="Your question"
-              className="min-w-0 flex-1 basis-full rounded-full border border-white/70 bg-white/55 px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-muted focus:border-brand/50 sm:basis-auto"
+              className="min-w-0 flex-1 basis-full rounded-full border border-white/12 bg-white/[0.05] px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-muted focus:border-brand/50 sm:basis-auto"
             />
             {micAvailable && (
               <button
@@ -270,7 +270,7 @@ export default function AskAI() {
                 className={`grid size-12 shrink-0 place-items-center rounded-full border transition-colors disabled:opacity-40 ${
                   mic.listening
                     ? 'animate-ping-soft border-brand bg-brand text-on-brand'
-                    : 'border-white/70 bg-white/50 text-muted hover:border-brand/40 hover:text-ink'
+                    : 'border-white/15 bg-white/[0.05] text-muted hover:border-brand/50 hover:text-ink'
                 }`}
               >
                 <MicIcon on={mic.listening} />
@@ -280,7 +280,7 @@ export default function AskAI() {
               <button
                 type="button"
                 onClick={finishNow}
-                className="ml-auto shrink-0 rounded-full border border-rule bg-white/60 px-6 py-3 text-[15px] font-medium text-ink transition-colors hover:border-brand sm:ml-0"
+                className="ml-auto shrink-0 rounded-full border border-rule bg-white/[0.06] px-6 py-3 text-[15px] font-medium text-ink transition-colors hover:border-brand sm:ml-0"
               >
                 Skip
               </button>
