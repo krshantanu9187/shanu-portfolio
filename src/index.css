@@ -84,6 +84,15 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--brand); outline
 }
 .slider-track::-webkit-scrollbar { display: none; }
 
+/* Native dialog, used for the store details on small screens. <dialog> brings
+   its own focus trap, Esc-to-close and backdrop, so none of that is rebuilt. */
+dialog.sheet { border: none; padding: 0; background: transparent; max-width: 100%; max-height: 100%; }
+dialog.sheet::backdrop { background: rgb(32 34 35 / 0.5); }
+dialog.sheet[open] { animation: sheet-in .3s var(--ease-out-soft); }
+dialog.sheet[open]::backdrop { animation: fade-in .3s ease both; }
+@keyframes sheet-in { from { opacity: 0; transform: translateY(14px) scale(.97) } to { opacity: 1; transform: none } }
+@keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
+
 /* A rule that draws itself in from the left when its section reveals */
 .draw-line { transform: scaleX(0); transform-origin: left; transition: transform .9s var(--ease-out-soft) .12s; }
 .in .draw-line { transform: scaleX(1); }
